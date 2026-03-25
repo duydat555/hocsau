@@ -3,7 +3,7 @@ val: ../valid/images
 test: ../test/images
 
 nc: 4
-names: ['ball', 'goalkeeper', 'player', 'referee']
+names: ["ball", "goalkeeper", "player", "referee"]
 
 roboflow:
   workspace: minaehyeon

@@ -1,16 +1,18 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms, models
 from torch.utils.data import DataLoader
+from torchvision import datasets, models, transforms
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Transform
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-])
+transform = transforms.Compose(
+    [
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+    ]
+)
 
 train_dataset = datasets.ImageFolder("classifier_dataset/train", transform=transform)
 val_dataset = datasets.ImageFolder("classifier_dataset/valid", transform=transform)
@@ -48,7 +50,7 @@ for epoch in range(epochs):
 
         total_loss += loss.item()
 
-    print(f"Epoch {epoch+1}, Loss: {total_loss:.4f}")
+    print(f"Epoch {epoch + 1}, Loss: {total_loss:.4f}")
 
 torch.save(model.state_dict(), "role_classifier.pth")
 print("Training done.")

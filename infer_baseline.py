@@ -1,8 +1,10 @@
 import os
+
 import cv2
 import torch
 import torch.nn as nn
-from torchvision import transforms, models
+from torchvision import models, transforms
+
 from ultralytics import YOLO
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -12,21 +14,20 @@ detector = YOLO("yolo26n.pt")
 
 # Load classifier
 if not os.path.exists("role_classifier.pth"):
-    raise FileNotFoundError(
-        "role_classifier.pth not found. "
-        "Run train_classifier.py first to generate it."
-    )
+    raise FileNotFoundError("role_classifier.pth not found. Run train_classifier.py first to generate it.")
 model = models.resnet50()
 model.fc = nn.Linear(model.fc.in_features, 2)  # goalkeeper, player
 model.load_state_dict(torch.load("role_classifier.pth", map_location=device))
 model.to(device)
 model.eval()
 
-transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-])
+transform = transforms.Compose(
+    [
+        transforms.ToPILImage(),
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+    ]
+)
 
 class_names = ["goalkeeper", "player"]
 
@@ -58,10 +59,8 @@ while True:
 
                 label = class_names[pred]
 
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0,255,0), 2)
-                cv2.putText(frame, label, (x1, y1-10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 
-                            0.8, (0,255,0), 2)
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
     cv2.imshow("Baseline Demo", frame)
     if cv2.waitKey(1) & 0xFF == 27:
