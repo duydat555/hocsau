@@ -1,5 +1,5 @@
 """
-Extracts bounding box crops from the YOLO dataset and organises them into
+Extracts bounding box crops from the YOLO dataset and organizes them into
 an ImageFolder-style structure for training the role classifier.
 
 Output structure:
@@ -12,9 +12,9 @@ Output structure:
             player/
 """
 
-import os
-import cv2
 from pathlib import Path
+
+import cv2
 
 # Classes to extract: {yolo_class_id: folder_name}
 TARGET_CLASSES = {1: "goalkeeper", 2: "player"}
