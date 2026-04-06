@@ -3,9 +3,9 @@ import os
 from ultralytics import YOLO
 
 # Load YOLOv8 pretrained
-model = YOLO("yolo26n.pt")  # nano version cho nhẹ
+model = YOLO("football_detection/yolo_player_model/weights/best.pt")  # nano version cho nhẹ
 
-video_path = "video.mp4"
+video_path = "input_video.mp4"
 output_dir = "cropped_players"
 os.makedirs(output_dir, exist_ok=True)
 
