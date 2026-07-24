@@ -1,5 +1,7 @@
-import cv2
 import os
+
+import cv2
+
 from ultralytics import YOLO
 
 # Load YOLOv8 pretrained
@@ -26,17 +28,14 @@ while True:
         boxes = r.boxes
         for box in boxes:
             cls = int(box.cls[0])
-            
+
             # class 2 = player in this dataset (0=ball, 1=goalkeeper, 3=referee)
             if cls == 2:
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 crop = frame[y1:y2, x1:x2]
 
                 if crop.size != 0:
-                    cv2.imwrite(
-                        f"{output_dir}/player_{saved_id}.jpg",
-                        crop
-                    )
+                    cv2.imwrite(f"{output_dir}/player_{saved_id}.jpg", crop)
                     saved_id += 1
 
     frame_id += 1
